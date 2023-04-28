@@ -53,8 +53,19 @@ const displayController = (() => {
         displayBoard();
     }
 
+    const endGamePopup = () => {
+        const endPopup =  document.getElementById('endPopup');
+        endPopup.style.display = 'flex'
+        endPopup.addEventListener('click', (e) => {
+            if (e.target.className === 'playAgainButton') {
+                endPopup.style.display = 'none';
+                gameBoard.resetBoard();
+                displayController.updateBoard();
+            }
+        })}
+    
     displayBoard();
-    return { displayBoard, updateBoard };
+    return { displayBoard, updateBoard, endGamePopup };
 })();
 
 //gamecontroller
@@ -62,23 +73,33 @@ const displayController = (() => {
 
 const gameController = (() => {
     let marker = 'X'
+    let turnCount = 0;
 
     const turnCounter = () => {
         if (marker === 'X') {
             marker = 'O';
-            return marker;
+            turnCount +=1;
+            console.log(turnCount);
+            return marker, turnCount;
         }
         else {
             marker = 'X';
-            return marker;
+            turnCount +=1;
+            console.log(turnCount);
+            return marker, turnCount;
         }
+    }
+
+    const resetTurnCounter = () => {
+        turnCount = 0;
+        return turnCount;
     }
 
 //click event listener collects the clicked button ID, updates the array, updates board display
 //checks for winner then calls turncounter
 
     gridContainer.addEventListener('click', (e) => {
-        const headerContainer = document.getElementById('headerContainer');
+        
         
         if (e.target && e.target.id.startsWith('gridSquare-')) {
             let row = e.target.id.slice(11, 12);
@@ -89,13 +110,15 @@ const gameController = (() => {
             } else {     
             boardArray[row][col] = marker;
             displayController.updateBoard();
-            if (checkWinner(boardArray, marker) === true) {
-                winnerText = document.createElement('p');
-                winnerText.innerText = `${marker} is the winner!`;
-                headerContainer.appendChild(winnerText);
-                console.log('it works..');
-            } ;
             turnCounter();
+
+            if (checkWinner(boardArray, marker)) {
+                endGame();
+            } ;
+            if ((!checkWinner(boardArray, marker)) && (turnCount === 9)){
+                console.log('it works');
+            };
+
             }
         }
     });
@@ -126,6 +149,17 @@ const gameController = (() => {
                 && boardArray[2][0] === marker) {
                 return true;
                 }
+    }
+
+
+    const endGame = () => {
+        const winnerTextHolder = document.getElementById('winnerText');
+        winnerTextHolder.replaceChildren();
+        winnerText = document.createElement('p');
+        winnerText.innerText = `${marker} is the winner!`;
+        winnerTextHolder.appendChild(winnerText);    
+        displayController.endGamePopup();
+        resetTurnCounter();
     }
 })();
 
