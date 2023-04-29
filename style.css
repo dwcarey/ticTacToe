@@ -62,21 +62,24 @@ body {
 	margin-right: 20vw;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	height: 100vh;
 }
 
 .gridSquare {
-    background-color: rgb(206, 153, 255);
-    border: 3px solid rgb(29, 7, 66);
+    background-color: rgb(0, 0, 0);
+    border: 3px solid rgb(138, 0, 0);
     width: 13vw;
     height: 13vw;
+	color: rgb(8, 71, 22);
+	font-size: 80px;
+	font-weight: 800;
+	margin: -3px;
 }
 
 .gameBoardContainer {
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	min-height: 50vh;
+	min-height: 40vw;
 }
 
 .gridContainer {
@@ -92,6 +95,13 @@ body {
 	align-items: center;
 }
 
+.scoreContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .endPopup {	
 	display: none;
 	position: absolute;
@@ -99,8 +109,8 @@ body {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 9;
-	width: 50vw;
-	height: 80vh;
+	width: 40vw;
+	height: 98vh;
 	background-color: aquamarine;
 	border: 3px solid red;
 	border-radius: 12px;
@@ -114,7 +124,7 @@ body {
 	height: 3rem;
 }
 
-.winnerText > p {
+.winnerText, .winnerImage {
 	font-size: 2rem;
 	font-weight: 700;
 	text-align: center;
@@ -123,6 +133,13 @@ body {
 h1 {
 	font-size: 5rem;
 	font-weight: 800;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+h2 {
+	font-size: 2rem;
+	font-weight: 600;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 }

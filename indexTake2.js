@@ -52,10 +52,19 @@ const displayController = (() => {
         gridContainer.replaceChildren();
         displayBoard();
     }
+    const updateTurn = () => {
+        const turnText = document.getElementById('nextPlayer');
+        turnText.innerText = `${currentPlayer.name}'s turn! (${currentPlayer.marker})`
+    }
+
 
     const endGamePopup = () => {
         const endPopup =  document.getElementById('endPopup');
+        const scoreText = document.getElementById('winnerImage');
         endPopup.style.display = 'flex'
+        scoreText.innerText = `${player1.name} (${player1.marker}) score is: ${player1.score}
+            
+        ${player2.name} (${player2.marker}) score is: ${player2.score}`;
         endPopup.addEventListener('click', (e) => {
             if (e.target.className === 'playAgainButton') {
                 endPopup.style.display = 'none';
@@ -65,63 +74,75 @@ const displayController = (() => {
         })}
     
     displayBoard();
-    return { displayBoard, updateBoard, endGamePopup };
+    return { displayBoard, updateBoard, endGamePopup, updateTurn };
 })();
 
 //gamecontroller
 //turncounter sets marker to X or O each turn, called by click event listener
 
-const gameController = (() => {
-    let marker = 'X'
-    let turnCount = 0;
+let player1 = {
+    name: "Player 1",
+    marker: "X",
+    score: 0
+};
+let player2 = {
+    name: "Player 2",
+    marker: "O",
+    score: 0
+};
+let currentPlayer = player1;
 
-    const turnCounter = () => {
-        if (marker === 'X') {
-            marker = 'O';
-            turnCount +=1;
-            console.log(turnCount);
-            return marker, turnCount;
+const gameController = (() => {
+    displayController.updateTurn();
+        
+        let turnCount = 0;
+    
+        const turnCounter = () => {
+            if (currentPlayer === player1) {
+                currentPlayer = player2;
+                turnCount += 1;
+            } else {
+                currentPlayer = player1;
+                turnCount += 1;
+            }
         }
-        else {
-            marker = 'X';
-            turnCount +=1;
-            console.log(turnCount);
-            return marker, turnCount;
-        }
-    }
 
     const resetTurnCounter = () => {
         turnCount = 0;
         return turnCount;
     }
 
+
 //click event listener collects the clicked button ID, updates the array, updates board display
 //checks for winner then calls turncounter
 
-    gridContainer.addEventListener('click', (e) => {
+gridContainer.addEventListener('click', (e) => {
         
+    if (e.target && e.target.id.startsWith('gridSquare-')) {
+        let row = e.target.id.slice(11, 12);
+        let col = e.target.id.slice(13, 14);
+
+        if ((boardArray[row][col]) !== (' ')) {
+            return;
+        } 
+                        
+        boardArray[row][col] = currentPlayer.marker;
+        displayController.updateBoard();
+
         
-        if (e.target && e.target.id.startsWith('gridSquare-')) {
-            let row = e.target.id.slice(11, 12);
-            let col = e.target.id.slice(13, 14);
+        if (checkWinner(boardArray, currentPlayer.marker)) {
+            endGame(currentPlayer);
+            return;
+        };
+        turnCounter();
 
-            if ((boardArray[row][col]) !== (' ')) {
-                return;
-            } else {     
-            boardArray[row][col] = marker;
-            displayController.updateBoard();
-            turnCounter();
-
-            if (checkWinner(boardArray, marker)) {
-                endGame();
-            } ;
-            if ((!checkWinner(boardArray, marker)) && (turnCount === 9)){
-                console.log('it works');
-            };
-
-            }
-        }
-    });
+        if (turnCount === 9) {
+            currentPlayer = null;
+            endGame(currentPlayer);
+            return;
+        };            
+    }displayController.updateTurn(); 
+});
 
     //checkwinner function loops through array by row and column and checks for a total of 3 same marker
     //in either row or column using a counter for each
@@ -152,14 +173,24 @@ const gameController = (() => {
     }
 
 
-    const endGame = () => {
-        const winnerTextHolder = document.getElementById('winnerText');
-        winnerTextHolder.replaceChildren();
-        winnerText = document.createElement('p');
-        winnerText.innerText = `${marker} is the winner!`;
-        winnerTextHolder.appendChild(winnerText);    
+    const endGame = (winner) => {
+
+        if (winner !== null) {
+            const winnerTextHolder = document.getElementById('winnerText');
+            const scoreHolder = document.getElementById('scoreHolder');
+            currentPlayer.score += 1;
+            winnerTextHolder.innerText = `${winner.name} wins!`;
+            scoreHolder.innerText = `
+            ${player1.name} (${player1.marker}) score is: ${player1.score}
+            ${player2.name} (${player2.marker}) score is: ${player2.score}`
+            resetTurnCounter();
+        } else {
+            const winnerTextHolder = document.getElementById('winnerText');
+            winnerTextHolder.innerText = "It's a tie!";
+            resetTurnCounter();
+            currentPlayer = player1;
+        }
         displayController.endGamePopup();
-        resetTurnCounter();
     }
 })();
 
