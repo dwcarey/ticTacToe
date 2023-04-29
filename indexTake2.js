@@ -155,8 +155,7 @@ gridContainer.addEventListener('click', (e) => {
         turnCounter();
 
         if (turnCount === 9) {
-            currentPlayer = null;
-            endGame(currentPlayer);
+            endGame('tie');
             return;
         };            
     }displayController.updateTurn(); 
@@ -195,18 +194,18 @@ gridContainer.addEventListener('click', (e) => {
         const winnerTextHolder = document.getElementById('winnerText');
     
 
-        if (winner !== null && currentPlayer.score < 2) {
+        if (winner !== 'tie' && currentPlayer.score < 2) {
             currentPlayer.score += 1;
             winnerTextHolder.innerText = `${winner.name} wins!`;
             scoreHolder.innerText = `
             ${player1.name} (${player1.marker}) score is: ${player1.score}
             ${player2.name} (${player2.marker}) score is: ${player2.score}`
             resetTurnCounter();
-        } else if (winner === null && currentPlayer.score < 2){
+        } else if ((winner == 'tie') && (currentPlayer.score < 2)){
             winnerTextHolder.innerText = "It's a tie!";
             resetTurnCounter();
             displayController.updateTurn();
-        } else if (winner !== null && currentPlayer.score == 2) {
+        } else if (winner !== 'tie' && currentPlayer.score == 2) {
             currentPlayer.score += 1;
             winnerTextHolder.innerText = `${winner.name} wins the match!!!`;
             scoreHolder.innerText = `
