@@ -103,8 +103,9 @@ body {
 .gridContainer {
     max-height: 40vh;
     max-width: 40vw;
-    flex-wrap: wrap;
-    display: flex;
+    display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
 }
 
 .headerContainer {
@@ -182,9 +183,6 @@ h2 {
 	.gridContainer {
 		max-height: 80vh;
 		max-width: 80vw;
-		flex-wrap: wrap;
-		display: flex;
-		justify-content: center;
 	}
 
 	h1 {
