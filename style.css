@@ -97,14 +97,12 @@ body {
 .gameBoardContainer {
 	display: flex;
 	justify-content: center;
-	min-height: 40vw;
-	max-height: 70vh;
+height: fit-content;
 	align-items: center;
 }
 
 .gridContainer {
-    max-height: 40vh;
-    max-width: 40vw;
+	height: fit-content;
     display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
@@ -121,6 +119,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-top: 16px;
 }
 
 .endPopup {	
@@ -175,8 +174,8 @@ h2 {
 
 
 	.gridSquare {
-		width: 26.3vw;
-		height: 26.3vw;
+		width: 25vw;
+		height: 25w;
 		font-size: 60px;
 		font-weight: 800;
 		margin: -3px;
@@ -188,7 +187,7 @@ h2 {
 	}
 
 	h1 {
-		font-size: 3.5rem;
+		font-size: 3rem;
 	}
 
 	.endPopup {	
@@ -203,14 +202,14 @@ h2 {
 
 @media only screen and (max-width: 400px) {
 	h1 {
-		font-size: 2.5rem;
+		font-size: 2.3rem;
 	}
 
 	.winnerText, .winnerImage {
-		font-size: 1.5rem;
+		font-size: 1.2rem;
 	}
 
 	h2 {
-		font-size: 1.5rem;
+		font-size: 1.2rem;
 	}
 }
