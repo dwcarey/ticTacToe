@@ -164,18 +164,24 @@ h2 {
 
 }
 
+@media only screen and (max-width: 850px) {
+	h1 {
+		font-size: 3rem;
+	}
+}
 
 @media only screen and (max-width: 600px) {
 	.everythingContainer {
 		margin-left: 5vw;
 		margin-right: 5vw;
-		justify-content: space-around;
+		align-items: center;
 	}
+
 
 
 	.gridSquare {
 		width: 25vw;
-		height: 25w;
+		height: 25vw;
 		font-size: 60px;
 		font-weight: 800;
 		margin: -3px;
@@ -202,7 +208,7 @@ h2 {
 
 @media only screen and (max-width: 400px) {
 	h1 {
-		font-size: 2.3rem;
+		font-size: 1.8rem;
 	}
 
 	.winnerText, .winnerImage {
@@ -213,3 +219,5 @@ h2 {
 		font-size: 1.2rem;
 	}
 }
+
+
