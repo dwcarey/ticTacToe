@@ -86,8 +86,8 @@ body {
 .gridSquare {
     background-color: var(--gridBackground);
     border: 3px solid var(--borderColour);
-    width: 13vw;
-    height: 13vw;
+    width: min(180px, clamp(10vw, 13vw, 180px));
+    height: min(180px, clamp(10vw, 13vw, 180px));
 	color: var(--markerColour);
 	font-size: 80px;
 	font-weight: 800;
@@ -98,6 +98,8 @@ body {
 	display: flex;
 	justify-content: center;
 	min-height: 40vw;
+	max-height: 70vh;
+	align-items: center;
 }
 
 .gridContainer {
@@ -196,5 +198,19 @@ h2 {
 		left: 50%;
 		width: 90vw;
 		height: 90vh;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	h1 {
+		font-size: 2.5rem;
+	}
+
+	.winnerText, .winnerImage {
+		font-size: 1.5rem;
+	}
+
+	h2 {
+		font-size: 1.5rem;
 	}
 }
