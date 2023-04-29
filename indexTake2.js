@@ -1,4 +1,23 @@
+//if O wins O starts first, 
+//specifically after that the next game is a tie, .nextplayer says O but X is entered on click
+
+
 //gameboard function sets the board and board array and contains a reset board and set board value function
+let player1 = {
+    name: "Player 1",
+    marker: "X",
+    score: 0
+};
+let player2 = {
+    name: "Player 2",
+    marker: "O",
+    score: 0
+};
+let currentPlayer = player1;
+let gameCount = 0;
+
+const scoreHolder = document.getElementById('scoreHolder');
+
 const gameBoard = (() => {
 
     boardArray = [];
@@ -65,6 +84,13 @@ const displayController = (() => {
         scoreText.innerText = `${player1.name} (${player1.marker}) score is: ${player1.score}
             
         ${player2.name} (${player2.marker}) score is: ${player2.score}`;
+        if (player1.score === 3 || player2.score === 3) {
+            player1.score = 0;
+            player2.score = 0;
+            scoreHolder.innerText = `
+            ${player1.name} (${player1.marker}) score is: ${player1.score}
+            ${player2.name} (${player2.marker}) score is: ${player2.score}`
+        }
         endPopup.addEventListener('click', (e) => {
             if (e.target.className === 'playAgainButton') {
                 endPopup.style.display = 'none';
@@ -72,6 +98,8 @@ const displayController = (() => {
                 displayController.updateBoard();
             }
         })}
+
+ 
     
     displayBoard();
     return { displayBoard, updateBoard, endGamePopup, updateTurn };
@@ -80,17 +108,7 @@ const displayController = (() => {
 //gamecontroller
 //turncounter sets marker to X or O each turn, called by click event listener
 
-let player1 = {
-    name: "Player 1",
-    marker: "X",
-    score: 0
-};
-let player2 = {
-    name: "Player 2",
-    marker: "O",
-    score: 0
-};
-let currentPlayer = player1;
+
 
 const gameController = (() => {
     displayController.updateTurn();
@@ -174,21 +192,38 @@ gridContainer.addEventListener('click', (e) => {
 
 
     const endGame = (winner) => {
+        const winnerTextHolder = document.getElementById('winnerText');
+    
 
-        if (winner !== null) {
-            const winnerTextHolder = document.getElementById('winnerText');
-            const scoreHolder = document.getElementById('scoreHolder');
+        if (winner !== null && currentPlayer.score < 2) {
             currentPlayer.score += 1;
             winnerTextHolder.innerText = `${winner.name} wins!`;
             scoreHolder.innerText = `
             ${player1.name} (${player1.marker}) score is: ${player1.score}
             ${player2.name} (${player2.marker}) score is: ${player2.score}`
             resetTurnCounter();
-        } else {
-            const winnerTextHolder = document.getElementById('winnerText');
+        } else if (winner === null && currentPlayer.score < 2){
             winnerTextHolder.innerText = "It's a tie!";
             resetTurnCounter();
+            displayController.updateTurn();
+        } else if (winner !== null && currentPlayer.score == 2) {
+            currentPlayer.score += 1;
+            winnerTextHolder.innerText = `${winner.name} wins the match!!!`;
+            scoreHolder.innerText = `
+            ${player1.name} (${player1.marker}) score is: ${player1.score}
+            ${player2.name} (${player2.marker}) score is: ${player2.score}`
+            resetTurnCounter();
+            displayController.endGamePopup();
+            return;
+        }
+
+        gameCount += 1;
+        if (gameCount %2 ===0 ) {
             currentPlayer = player1;
+            displayController.updateTurn();
+        } else if (gameCount %2 !== 0) {
+            currentPlayer = player2;
+            displayController.updateTurn();
         }
         displayController.endGamePopup();
     }

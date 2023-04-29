@@ -127,7 +127,7 @@ body {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 9;
-	width: 40vw;
+	width: 60vw;
 	height: 98vh;
 	background-color: var(--backgroundColour);
 	border: 3px solid var(--borderColour);
